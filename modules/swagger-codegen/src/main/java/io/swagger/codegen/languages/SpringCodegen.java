@@ -33,7 +33,7 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public SpringCodegen() {
         super();
         outputFolder = "generated-code/javaSpring";
-        apiTestTemplateFiles.clear(); // TODO: add test template
+        //apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpring";
         apiPackage = "io.swagger.api";
         modelPackage = "io.swagger.model";
@@ -76,7 +76,14 @@ public class SpringCodegen extends AbstractJavaCodegen {
     public String getName() {
         return "spring";
     }
-
+    
+    @Override
+    public boolean shouldOverwrite(String filename) {
+    	if(filename.endsWith("Controller.java")||filename.endsWith("Test.java")){
+    		return !new File(filename).exists();
+    	}
+        return !(skipOverwrite && new File(filename).exists());
+    }
     @Override
     public String getHelp() {
         return "Generates a Java SpringBoot Server application using the SpringFox integration.";
@@ -89,8 +96,8 @@ public class SpringCodegen extends AbstractJavaCodegen {
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
         //TODO: add doc templates
-        modelDocTemplateFiles.remove("model_doc.mustache");
-        apiDocTemplateFiles.remove("api_doc.mustache");
+       // modelDocTemplateFiles.remove("model_doc.mustache");
+         apiDocTemplateFiles.remove("api_doc.mustache");
 
         if (additionalProperties.containsKey(TITLE)) {
             this.setTitle((String) additionalProperties.get(TITLE));
@@ -139,6 +146,8 @@ public class SpringCodegen extends AbstractJavaCodegen {
                         ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
             }
             if (library.equals(SPRING_MVC_LIBRARY)) {
+            	supportingFiles.add(new SupportingFile("homeController.mustache",
+                        (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "HomeController.java"));
                 supportingFiles.add(new SupportingFile("webApplication.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
                 supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
@@ -149,6 +158,10 @@ public class SpringCodegen extends AbstractJavaCodegen {
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
                 supportingFiles.add(new SupportingFile("application.properties",
                         ("src.main.resources").replace(".", java.io.File.separator), "swagger.properties"));
+                writeOptional(outputFolder, new SupportingFile("web.mustache",
+                        ("src/main/webapp/WEB-INF"), "web.xml"));
+//                writeOptional(outputFolder, new SupportingFile("servlet.mustache",
+//                        ("src/main/webapp/WEB-INF"), artifactId+"-servlet.xml"));
             }
             if (library.equals(SPRING_CLOUD_LIBRARY)) {
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
@@ -165,11 +178,11 @@ public class SpringCodegen extends AbstractJavaCodegen {
             } else {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
                 supportingFiles.add(new SupportingFile("apiException.mustache",
-                        (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiException.java"));
+                        (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "ApiException.java"));
                 supportingFiles.add(new SupportingFile("apiResponseMessage.mustache",
                         (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiResponseMessage.java"));
                 supportingFiles.add(new SupportingFile("notFoundException.mustache",
-                        (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
+                        (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "NotFoundException.java"));
                 supportingFiles.add(new SupportingFile("apiOriginFilter.mustache",
                         (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiOriginFilter.java"));
                 supportingFiles.add(new SupportingFile("swaggerDocumentationConfig.mustache",
@@ -410,11 +423,11 @@ public class SpringCodegen extends AbstractJavaCodegen {
 
         //Add imports for Jackson
         if (!Boolean.TRUE.equals(model.isEnum)) {
-            model.imports.add("JsonProperty");
-
-            if (Boolean.TRUE.equals(model.hasEnums)) {
-                model.imports.add("JsonValue");
-            }
+//            model.imports.add("JsonProperty");
+//
+//            if (Boolean.TRUE.equals(model.hasEnums)) {
+//                model.imports.add("JsonValue");
+//            }
         } else { // enum class
             //Needed imports for Jackson's JsonCreator
             if (additionalProperties.containsKey("jackson")) {

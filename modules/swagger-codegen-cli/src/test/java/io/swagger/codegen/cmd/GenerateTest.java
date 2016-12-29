@@ -202,19 +202,6 @@ public class GenerateTest {
         }};
     }
 
-    @Test
-    public void testAdditionalProperties() throws Exception {
-        setupAndRunGenericTest("--additional-properties", "hello=world,key=,foo=bar");
-
-        new FullVerifications() {{
-            configurator.addAdditionalProperty("hello", "world");
-            times = 1;
-            configurator.addAdditionalProperty("foo", "bar");
-            times = 1;
-            configurator.addAdditionalProperty("key", anyString);
-            times = 0;
-        }};
-    }
 
     @Test
     public void testLanguageSpecificPrimitives() throws Exception {

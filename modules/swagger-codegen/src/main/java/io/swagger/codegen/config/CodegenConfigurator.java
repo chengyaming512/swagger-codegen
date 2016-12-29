@@ -344,8 +344,8 @@ public class CodegenConfigurator {
 
     public ClientOptInput toClientOptInput() {
 
-        Validate.notEmpty(lang, "language must be specified");
-        Validate.notEmpty(inputSpec, "input spec must be specified");
+//        Validate.notEmpty(lang, "language must be specified");
+//        Validate.notEmpty(inputSpec, "input spec must be specified");
 
         setVerboseFlags();
         setSystemProperties();

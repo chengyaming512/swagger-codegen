@@ -26,7 +26,7 @@ public class Generate implements Runnable {
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
 
-    @Option(name = {"-l", "--lang"}, title = "language", required = true,
+    @Option(name = {"-l", "--lang"}, title = "language", 
             description = "client language to generate (maybe class name in classpath, required)")
     private String lang;
 
@@ -34,7 +34,7 @@ public class Generate implements Runnable {
             description = "where to write the generated files (current dir by default)")
     private String output = "";
 
-    @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
+    @Option(name = {"-i", "--input-spec"}, title = "spec file", 
             description = "location of the swagger spec, as URL or file (required)")
     private String spec;
 
