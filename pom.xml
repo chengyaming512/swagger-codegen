@@ -1,9 +1,4 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>5</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger</groupId>
     <artifactId>swagger-codegen-project</artifactId>
@@ -746,34 +741,7 @@
                 <!-- run ruby test first which has a random delay script to
                      avoid issues with running 2 CI jobs in parallel.       -->
                 <!-- clients -->
-                <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/android/volley</module>
-                <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/go</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2</module>
-                <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx</module>
-                <module>samples/client/petstore/javascript</module>
-                <module>samples/client/petstore/python</module>
-                <module>samples/client/petstore/scala</module>
-                <module>samples/client/petstore/typescript-fetch/builds/default</module>
-                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
-                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <module>samples/client/petstore/typescript-angular</module>
-                <module>samples/client/petstore/typescript-node/npm</module>
                 <!-- servers -->
-                <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/undertow</module>
-                <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default</module>
-                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/client/petstore/spring-cloud</module>
                 <module>samples/server/petstore/springboot</module>
@@ -785,7 +753,6 @@
     <modules>
         <module>modules/swagger-codegen</module>
         <module>modules/swagger-codegen-cli</module>
-        <module>modules/swagger-codegen-maven-plugin</module>
         <module>modules/swagger-generator</module>
     </modules>
     <reporting>
@@ -840,17 +807,8 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <repositories>
-        <repository>
-            <id>sonatype-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
     <properties>
-        <swagger-parser-version>1.0.24-SNAPSHOT</swagger-parser-version>
+        <swagger-parser-version>1.0.24</swagger-parser-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>2.3.4</felix-version>
         <swagger-core-version>1.5.10</swagger-core-version>
@@ -867,4 +825,11 @@
         <jmockit-version>1.25</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
     </properties>
+  <distributionManagement>
+    <repository>
+      <id>nulion-sh-cms</id>
+      <name>Repository for Neulion Shanghai CMS team</name>
+      <url>http://172.16.0.99:8088/repository/internal/</url>
+    </repository>
+  </distributionManagement>
 </project>
